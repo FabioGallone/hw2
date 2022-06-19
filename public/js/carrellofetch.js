@@ -40,7 +40,7 @@ function onJSON(json){
        a.addEventListener("click", eliminaEvento);
        if(session.dataset.sessionId){
        a1.addEventListener("click", SalvaPerdopo);
-       a1.addEventListener("click", eliminaEvento);
+     
        }
        else{
         a1.href="login";
@@ -129,12 +129,13 @@ function onJSON(json){
 
 function SalvaPerdopo(event){ 
    id_maglia=event.currentTarget.dataset.id_maglia;
-    fetch("/saveforlater/" + id_maglia).then(EliminaRimasuglio).then(SalvaPerDopoPermanenti);
- 
+    fetch("/saveforlater/" + id_maglia).then(EliminaRimasuglio).then(eliminaEvento(event));
+
 }
 
 
 function SalvaPerDopoPermanenti(){
+
     fetch("/saveforlater").then(onResponse).then(CreaElementiPerDopo);
 }
 
@@ -142,7 +143,7 @@ function SalvaPerDopoPermanenti(){
 
 
 function CreaElementiPerDopo(json){
-
+   
 
     for(let maglia of json){
     const id=document.getElementById("ordina_ora");
@@ -202,7 +203,7 @@ function eliminaEvento(event)
     const id_maglia = event.currentTarget.dataset.id_maglia;
     
     // Elimina l'evento
-    fetch("/cookie/delete/" + id_maglia).then(EliminaRimasuglio).then(aggiungiMaglietta);
+    fetch("/cookie/delete/" + id_maglia).then(EliminaRimasuglio).then(aggiungiMaglietta).then(SalvaPerDopoPermanenti);
 
 
     // Previeni il click sul link

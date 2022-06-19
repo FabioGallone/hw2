@@ -17,6 +17,9 @@
         <input id="csrf" name="_token" type="hidden" value='{{csrf_token()}}'>
 
 
+        @if(isset($user_id))
+        <div data-session-id={{$user_id['id']}}></div>
+        @endif
 
         <!--
         @if(isset($msg))

@@ -1,6 +1,7 @@
 
 function onJSON(json){
     let prezzototale=0;
+    const session=document.querySelector(".flex_container div");
 
     const h2_1=document.createElement("h2");
     h2_1.textContent="CARRELLO";
@@ -37,8 +38,13 @@ function onJSON(json){
         a1.dataset.id_maglia=maglia.id_prodotto;
         
        a.addEventListener("click", eliminaEvento);
+       if(session.dataset.sessionId){
        a1.addEventListener("click", SalvaPerdopo);
        a1.addEventListener("click", eliminaEvento);
+       }
+       else{
+        a1.href="login";
+       }
   
 
      
@@ -209,7 +215,7 @@ function eliminaEvento(event)
 function onResponse(response) {
     console.log('Risposta ricevuta');
 
-console.log(response);
+
     return response.json();
   }
   

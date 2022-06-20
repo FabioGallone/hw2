@@ -128,6 +128,15 @@ label.button input:hover{
   }
 
 
+  .ordine_completato{
+    text-align: center;
+  }
+
+  h1.ordine_completato{
+   color: red;
+  }
+
+
 @media(max-width: 853px){
 
 

@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Jenssegers\Mongodb\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Save extends Authenticatable
+class Save extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+
+    use HasApiTokens, Notifiable;
+    
+    protected $connection = 'mongodb';
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +28,7 @@ class Save extends Authenticatable
         'nome_maglia',
         'immagine_maglia',
         'prezzo_maglia',
+        'numero_articolo',
         
     ];
 

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use App\Models\User;
+use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class ShopController extends Controller {
 
     function CreateDynamicPage(){       
-        $res = DB::table("shops")->get();
+        $res = Shop::all();
            
     
         return $res;
@@ -21,15 +22,18 @@ class ShopController extends Controller {
 
     public function createCookie(){
         $request = request();
-        
-        $res = DB::table("shops")->get();
+    
+        $res = Shop::all();
 
         for($i=1; $i<=count($res); $i++){
             
         if(!empty($request[$i])){
        
-           
-            Cookie::queue(Cookie::make($i, $i, 120));
+      
+           $value= $res[$i-1]["_id"];
+
+        
+            Cookie::queue(Cookie::make($i, $value, 120));
             return redirect("carrello");
         }
         

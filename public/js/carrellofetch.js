@@ -2,13 +2,13 @@
 function onJSON(json){
     let prezzototale=0;
     const session=document.querySelector(".flex_container div");
-
+  
     const h2_1=document.createElement("h2");
     h2_1.textContent="CARRELLO";
     carrello.appendChild(h2_1);
     
     for(let maglia of json){
-  
+       
         const div= document.createElement("div");
         div.classList.add("contenuto");
         const h1= document.createElement("h1");
@@ -34,13 +34,17 @@ function onJSON(json){
         a.textContent= "Rimuovi dal carrello";
         a1.textContent="Salva per dopo";
         
-        a.dataset.id_maglia = maglia.id_prodotto;
-        a1.dataset.id_maglia=maglia.id_prodotto;
+        a.dataset.numero_articolo = maglia.numero_articolo;
+       
+
+        a1.dataset.id_maglia=maglia._id;
+        a1.dataset.numero_articolo=maglia.numero_articolo;
+        
         
        a.addEventListener("click", eliminaEvento);
        if(session.dataset.sessionId){
        a1.addEventListener("click", SalvaPerdopo);
-     
+       
        }
        else{
         a1.href="login";
@@ -129,6 +133,7 @@ function onJSON(json){
 
 function SalvaPerdopo(event){ 
    id_maglia=event.currentTarget.dataset.id_maglia;
+
     fetch("/saveforlater/" + id_maglia).then(EliminaRimasuglio).then(eliminaEvento(event));
 
 }
@@ -143,7 +148,7 @@ function SalvaPerDopoPermanenti(){
 
 
 function CreaElementiPerDopo(json){
-   
+  
 
     for(let maglia of json){
     const id=document.getElementById("ordina_ora");
@@ -159,11 +164,14 @@ function CreaElementiPerDopo(json){
         a.textContent="Rimuovi";
         a1.textContent="Sposta nel carrello";
 
-      
+   
         a.dataset.id_maglia = maglia.id_prodotto;
+        
         a.addEventListener("click", EliminaSalvatoPerDopo);
 
-        a1.dataset.id_maglia= maglia.id_prodotto;
+        a1.dataset.id_maglia=maglia.id_prodotto;
+        a1.dataset.numero_articolo=maglia.numero_articolo;
+        
         a1.addEventListener("click", SpostaNelCarrello);
 
         h1.textContent=maglia.nome_maglia;
@@ -180,7 +188,8 @@ function CreaElementiPerDopo(json){
 
 
 function SpostaNelCarrello(event){
-    const id_maglia = event.currentTarget.dataset.id_maglia;
+    const id_maglia = event.currentTarget.dataset.numero_articolo;
+
     EliminaSalvatoPerDopo(event);
     fetch("/createcookie/" + id_maglia).then(EliminaRimasuglio).then(aggiungiMaglietta).then(SalvaPerDopoPermanenti);
 }
@@ -190,7 +199,7 @@ function EliminaSalvatoPerDopo(event){
 
 
     const id_maglia = event.currentTarget.dataset.id_maglia;
-
+    console.log(id_maglia);
     fetch("/saveforlater/delete/" + id_maglia).then(EliminaRimasuglio).then(SalvaPerDopoPermanenti).then(aggiungiMaglietta);
 }
 
@@ -200,23 +209,18 @@ function EliminaSalvatoPerDopo(event){
 function eliminaEvento(event)
 {
 
-    const id_maglia = event.currentTarget.dataset.id_maglia;
-    
-    // Elimina l'evento
+   const id_maglia = event.currentTarget.dataset.numero_articolo;
+ 
     fetch("/cookie/delete/" + id_maglia).then(EliminaRimasuglio).then(aggiungiMaglietta).then(SalvaPerDopoPermanenti);
 
 
-    // Previeni il click sul link
-    event.preventDefault();
 
 }
 
 
 
 function onResponse(response) {
-    console.log('Risposta ricevuta');
-
-
+  
     return response.json();
   }
   

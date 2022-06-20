@@ -15,40 +15,42 @@ use Illuminate\Support\Facades\Session;
 class CarrelloController extends Controller {
 
 
-
 public function GetArticles(){
     $eventi= array();
-    $res = DB::table("shops")->get();
-
+ 
+     
+    $res = Shop::all();
+ 
     
-    
-  
     for($i=1; $i<=count($res); $i++){
             
    
     if(Cookie::get($i)){
+    
        $value=Cookie::get($i);
-       $row = DB::table("shops")->where("id_prodotto", $value)->first();
-
-         
+     
+       $row=Shop::find($value);      
            
-
+    
         $eventi[]=$row;
     }
         
 
     }
+   
     return $eventi;
 }
 
 public function CreateCookieFromSaveForLater($number){
-    Cookie::queue(Cookie::make($number, $number, 120));
+    $res = Shop::all();
+  $value= $res[$number-1]["_id"];
+    Cookie::queue(Cookie::make($number, $value, 120));
     return redirect("carrello");
 }
 
 
 public function DeleteSpecificCookie($name_value){
-    Cookie::get($name_value);
+   // Cookie::get($name_value);
     Cookie::queue($name_value, null, -1);
   
     
@@ -57,7 +59,7 @@ public function DeleteSpecificCookie($name_value){
 
 public function DeleteEveryCookie(){
   
-    $res = DB::table("shops")->get();
+    $res = Shop::all();
     for($i=1; $i<=count($res); $i++){
     Cookie::queue($i, null, -1);
     }
@@ -74,18 +76,19 @@ public function CompleteOrder(){
     if($id= session('id')){
 
         $query=User::find($id);
+      
         $nome=$query["nome"];
         $cognome= $query["cognome"];
 
 
+    $res=Shop::all();
 
-    $res = DB::table("shops")->get();
     for($i=1; $i<=count($res); $i++){
 
         if(Cookie::get($i)){
          $value=Cookie::get($i);
          
-         $query=Shop::select("nome", "prezzo")->where("id_prodotto", $value)->get();
+         $query=Shop::select("nome", "prezzo")->where("_id", $value)->get();
          //$row = DB::table("shops")->select("nome", "prezzo")->where("id_prodotto", $value)->first();
 
          $nome_maglia=$query[0]['nome'];
@@ -123,13 +126,16 @@ public function CompleteOrder(){
 public function SaveforLater($number){
 
    if(session('id')){
-   $query=Shop::select("id_prodotto", "nome", "immagine", "prezzo")->where("id_prodotto", $number)->get();
-
+   $query=Shop::select("_id", "nome", "immagine", "prezzo", "numero_articolo")->where("_id", $number)->get();
+   
    $id_utente= session('id');
 
-   $id_prodotto=$query[0]["id_prodotto"];
+   $id_prodotto=$query[0]["_id"];
+
    $nome_maglia=$query[0]['nome'];    
    $immagine_maglia=$query[0]['immagine'];
+ $numero_articolo=$query[0]['numero_articolo'];
+    
 
    $prezzo_maglia=$query[0]['prezzo'];
 
@@ -139,14 +145,16 @@ public function SaveforLater($number){
 
     if(!$prodotto){
    $newProduct = Save::create([
+    
     'id_utente' => $id_utente,
     'id_prodotto' => $id_prodotto,
     'nome_maglia' => $nome_maglia,
     'immagine_maglia' => $immagine_maglia,
     'prezzo_maglia' => $prezzo_maglia,
+    'numero_articolo' => $numero_articolo,
     ]);
     }
-   
+ 
 
 
 
@@ -163,7 +171,7 @@ public function DeleteRowForLater($number){
 
 function WriteElementForLater(){
     
-    if($query= DB::table("saves")->where("id_utente", session('id'))->orderBy("id_prodotto")->get()){
+    if($query=Save::where("id_utente", session("id"))->orderBy("id_prodotto")->get()){
     return $query;
     }
 }

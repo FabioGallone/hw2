@@ -22,11 +22,12 @@ class LoginController extends Controller {
         if(!empty(request('email')) && !empty(request('password'))){
             
         
-         $user = User::where('email', request('email'))->where('password', password_verify('password', request('password')))->first();
-   
+        // $user = User::where('email', request('email'))->where('password', password_verify('password', request('password')))->get();
+         $user = User::where('email', request('email'))->first();
+       
         
-
-         if($user !== null) {
+         //return $user;
+         if($user !== null  &&   Hash::check(request('password'), $user->password)) {
              Session::put('id', $user->id);
              return redirect('home');
          }

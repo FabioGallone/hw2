@@ -11,6 +11,9 @@
 @section('content')
 
 
+@if(isset($msg))
+        <h1 class='ordine_completato'>{{$msg}}</h1>
+@endif
 
 <div class="flex_container">
         
@@ -21,12 +24,7 @@
         <div data-session-id={{$user_id['id']}}></div>
         @endif
 
-        <!--
-        @if(isset($msg))
-        <h1>{{$msg}}</h1>
 
-        @endif
-        -->
 
         <div id="carrello">
               

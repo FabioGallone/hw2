@@ -25,7 +25,7 @@ class Product extends Model
     protected $fillable = [
         'nome',
         'cognome',
-        'nome_maglia',
+        'nome_maglie_acquistate',
         'prezzo',
         'data_ordine',
         

@@ -64,7 +64,7 @@ public function DeleteEveryCookie(){
     Cookie::queue($i, null, -1);
     }
 
-    return redirect("carrello")->with('msg', "Complimenti, hai ultimato l'ordine. Corri a ritirare i tuoi prodotti in sede!");
+    return view("carrello")->with('msg', "Complimenti, hai ultimato l'ordine. Corri a ritirare i tuoi prodotti in sede!");
   
     
 }
@@ -116,7 +116,7 @@ public function CompleteOrder(){
            'prezzo' => $prezzotot,
            ]);
       
-        return redirect('cancellatutticookie');        
+        return redirect('cancellatutticookie');    
     }   else return redirect('login');
 
 

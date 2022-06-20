@@ -60,24 +60,7 @@
 <div id="ordina_ora">
 
 
-<!--
-  <div class="ordina">
 
-  <img src="image/logo.png">
-  <h1>bellaa</h1>
-
-
-  </div>
-
-  
-  <div class="ordina">
-
-  <img src="image/logo.png">
-  <h1>bellaa</h1>
-
-
-  </div>
--->
 </div>
    
 @endsection

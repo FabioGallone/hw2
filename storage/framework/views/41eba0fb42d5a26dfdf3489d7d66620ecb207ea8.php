@@ -17,6 +17,9 @@
         <input id="csrf" name="_token" type="hidden" value='<?php echo e(csrf_token()); ?>'>
 
 
+        <?php if(isset($user_id)): ?>
+        <div data-session-id=<?php echo e($user_id['id']); ?>></div>
+        <?php endif; ?>
 
         <!--
         <?php if(isset($msg)): ?>
@@ -57,24 +60,7 @@
 <div id="ordina_ora">
 
 
-<!--
-  <div class="ordina">
 
-  <img src="image/logo.png">
-  <h1>bellaa</h1>
-
-
-  </div>
-
-  
-  <div class="ordina">
-
-  <img src="image/logo.png">
-  <h1>bellaa</h1>
-
-
-  </div>
--->
 </div>
    
 <?php $__env->stopSection(); ?>

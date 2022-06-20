@@ -70,8 +70,14 @@ public function DeleteEveryCookie(){
 }
 
 
+
+
 public function CompleteOrder(){
+    $prezzotot=0;
     $data = request();
+    $maglie_acquistate= array();
+
+
     if(!empty($data["completaordine"])){    
     if($id= session('id')){
 
@@ -92,23 +98,24 @@ public function CompleteOrder(){
          //$row = DB::table("shops")->select("nome", "prezzo")->where("id_prodotto", $value)->first();
 
          $nome_maglia=$query[0]['nome'];
-           
-
+         $maglie_acquistate[]=$nome_maglia;
          $prezzo=$query[0]['prezzo'];
-    
-         $newProduct = Product::create([
-            'nome' => $nome,
-            'cognome' => $cognome,
-            'nome_maglia' => $nome_maglia,
-            'prezzo' => $prezzo,
-            ]);
-       
+         $prezzotot += $prezzo;
+        
       
         }
     
       
 
         }
+       
+        $newProduct = Product::create([
+           'nome' => $nome,
+           'cognome' => $cognome,
+           'nome_maglie_acquistate' => $maglie_acquistate,
+           'prezzo' => $prezzotot,
+           ]);
+      
         return redirect('cancellatutticookie');        
     }   else return redirect('login');
 

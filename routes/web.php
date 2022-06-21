@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 
-//Una richiesta post all'url /register chiamerà il controller registercontroller ed in particolare la funzione register al suo interno.
+
 
 Route::get('/register', 'App\Http\Controllers\RegisterController@index')->name('register'); 
 Route::post('/register', 'App\Http\Controllers\RegisterController@register'); 

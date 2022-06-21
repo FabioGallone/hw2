@@ -95,7 +95,7 @@ public function CompleteOrder(){
          $value=Cookie::get($i);
          
          $query=Shop::select("nome", "prezzo")->where("_id", $value)->get();
-         //$row = DB::table("shops")->select("nome", "prezzo")->where("id_prodotto", $value)->first();
+     
 
          $nome_maglia=$query[0]['nome'];
          $maglie_acquistate[]=$nome_maglia;

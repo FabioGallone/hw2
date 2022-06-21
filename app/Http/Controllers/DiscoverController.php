@@ -22,27 +22,29 @@ class DiscoverController extends Controller {
             "nutrition-type" => "cooking",
 
         ]);
-        return $json;
+     
 
         if ($json->failed()) abort(500);
         
 
         
         $newJson = array();
-        $doc= $json.parsed[0].food;
-        for ($i = 0; $i < count($json['data']); $i++) {
+        $doc= $json['parsed'][0]['food'];
+    
+     
+    
            
             $newJson[] = array(
-                'nome' => $doc.food,
-                'image' => $doc.image,
-                'carboidrati' => $doc.nutrients.CHOCDF,
-                'kcal' => $doc.nutrients.ENERC_KCAL,
-                'grassi' => $doc.nutrients.FAT,
-                'proteine' => $doc.nutrients.PROCNT,
+                'nome' => $doc['label'],
+                'image' => $doc['image'],
+                'carboidrati' => $doc['nutrients']['CHOCDF'],
+                'kcal' => $doc['nutrients']['ENERC_KCAL'],
+                'grassi' => $doc['nutrients']['FAT'],
+                'proteine' => $doc['nutrients']['PROCNT'],
             );
-        }
+        
     
-        return response()->json($newJson);
+        return $newJson;
         
     }
 

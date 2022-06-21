@@ -22,7 +22,7 @@ class LoginController extends Controller {
         if(!empty(request('email')) && !empty(request('password'))){
             
         
-  
+        // $user = User::where('email', request('email'))->where('password', password_verify('password', request('password')))->get();
          $user = User::where('email', request('email'))->first();
        
         

@@ -3,19 +3,19 @@ function onJson(json) {
  
   const box = document.querySelector('.flex_container');
   box.innerHTML = '';
-  doc=json.parsed[0].food;
+  doc=json[0];
  
  
-const nomepiatto = doc.label;
+const nomepiatto = doc.nome;
 const image= doc.image;
 
-const carboidrati= doc.nutrients.CHOCDF;
+const carboidrati= doc.carboidrati;
 
-const kcal= doc.nutrients.ENERC_KCAL;
+const kcal= doc.kcal;
 
-const grassi= doc.nutrients.FAT;
+const grassi= doc.grassi;
 
-const proteine= doc.nutrients.PROCNT;
+const proteine= doc.proteine;
 
 
   const span= document.createElement('span');
@@ -61,7 +61,7 @@ function onResponse(response) {
 
 function search(event)
 {
-  // Impedisci il submit del form
+
   event.preventDefault();
 
   const valore= document.querySelector('#food');
@@ -76,7 +76,6 @@ function search(event)
   fetch(url_completo).then(onResponse).then(onJson);
 }
 
-// Aggiungi event listener al form
 const form = document.querySelector('form');
 form.addEventListener('submit', search);
 

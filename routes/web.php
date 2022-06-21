@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 
 
-
 Route::get('/register', 'App\Http\Controllers\RegisterController@index')->name('register'); 
 Route::post('/register', 'App\Http\Controllers\RegisterController@register'); 
 
